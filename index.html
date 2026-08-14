@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSB - التسجيل الإلكتروني</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f3f7fb;
+    color:#12304f;
+}
+
+.header{
+    background:linear-gradient(120deg,#06305d,#0784b8);
+    color:white;
+    padding:18px 15px;
+    text-align:center;
+}
+
+.header h1{
+    margin:5px 0;
+    font-size:24px;
+}
+
+.header p{
+    margin:5px 0;
+}
+
+.container{
+    max-width:800px;
+    margin:20px auto;
+    padding:0 14px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.logo{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+    margin:auto;
+    display:block;
+}
+
+h2{
+    margin-top:0;
+    color:#075b8e;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.info-box{
+    background:#eef8fc;
+    border-radius:10px;
+    padding:13px;
+    text-align:center;
+}
+
+.info-box b{
+    display:block;
+    margin-top:5px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+input,select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccd8e5;
+    border-radius:9px;
+    font-size:16px;
+    background:white;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.price{
+    margin-top:18px;
+    background:#eaf8ff;
+    padding:16px;
+    border-radius:10px;
+    font-size:19px;
+}
+
+.price strong{
+    color:#087c35;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#0781d7;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.notice{
+    background:#fff8df;
+    border:1px solid #f0d77b;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.success{
+    display:none;
+    background:#e7f8ed;
+    border:1px solid #9ad5ad;
+    padding:18px;
+    border-radius:12px;
+}
+
+.contact{
+    text-align:center;
+    line-height:2;
+}
+
+.small{
+    font-size:13px;
+    color:#667;
+}
+
+@media(max-width:650px){
+    .info,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .header h1{
+        font-size:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+<!-- ضع شعار النادي هنا باسم csb-logo.png إذا رفعته إلى GitHub -->
+<img src="csb-logo.png" class="logo"
+     onerror="this.style.display='none'">
+
+<h1>النادي الرياضي للسباحة بشار (CSB)</h1>
+<p>منصة التسجيل الإلكتروني</p>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<div class="info">
+
+<div class="info-box">
+📅 التدريب
+<b>السبت والثلاثاء</b>
+</div>
+
+<div class="info-box">
+⏰ التوقيت
+<b>13:30 - 15:00</b>
+</div>
+
+<div class="info-box">
+📞 الهاتف
+<b>0675 27 29 33<br>0674 35 10 98</b>
+</div>
+
+</div>
+
+</div>
+
+<form id="registrationForm">
+
+<div class="card">
+
+<h2>📝 تسجيل السباح</h2>
+
+<div class="notice">
+يرجى إدخال المعلومات بدقة. سيتم مراجعة الملف من طرف إدارة النادي قبل تأكيد التسجيل.
+</div>
+
+<div class="form-grid">
+
+<div>
+<label>اسم الطفل ولقبه *</label>
+<input id="childName" required>
+</div>
+
+<div>
+<label>تاريخ الميلاد *</label>
+<input id="birthDate" type="date" required>
+</div>
+
+<div>
+<label>الجنس</label>
+<select id="gender">
+<option>ذكر</option>
+<option>أنثى</option>
+</select>
+</div>
+
+<div>
+<label>الفئة العمرية</label>
+<select id="ageGroup">
+<option>5 - 9 سنوات</option>
+<option>10 - 12 سنة</option>
+<option>13 - 15 سنة</option>
+<option>16 سنة فما فوق</option>
+</select>
+</div>
+
+<div>
+<label>مستوى السباحة</label>
+<select id="level">
+<option>مبتدئ</option>
+<option>متوسط</option>
+<option>متقدم</option>
+</select>
+</div>
+
+<div>
+<label>نوع المنخرط</label>
+<select id="memberType" onchange="calculatePrice()">
+<option value="new">منخرط جديد</option>
+<option value="old">منخرط سابق</option>
+</select>
+</div>
+
+<div>
+<label>اسم ولي الأمر *</label>
+<input id="parentName" required>
+</div>
+
+<div>
+<label>رقم الهاتف *</label>
+<input id="phone" type="tel" required>
+</div>
+
+<div class="full">
+<label>العنوان</label>
+<input id="address">
+</div>
+
+<div>
+<label>نوع الاشتراك *</label>
+<select id="subscription" onchange="calculatePrice()">
+<option value="2000">شهر واحد - 2000 دج</option>
+<option value="6500">3 أشهر - 6500 دج</option>
+</select>
+</div>
+
+<div>
+<label>الشهادة الطبية</label>
+<input id="medical" type="file" accept="image/*,.pdf">
+</div>
+
+<div>
+<label>شهادة الميلاد</label>
+<input id="birthCertificate" type="file" accept="image/*,.pdf">
+</div>
+
+<div>
+<label>صورة الطفل</label>
+<input id="childPhoto" type="file" accept="image/*">
+</div>
+
+<div class="full">
+<label>إثبات الدفع</label>
+<input id="paymentProof" type="file" accept="image/*,.pdf">
+</div>
+
+</div>
+
+<div class="price">
+المبلغ الإجمالي:
+<strong id="total">2500 دج</strong>
+
+<div class="small">
+التأمين + بطاقة النادي: 500 دج تضاف مرة واحدة فقط عند أول تسجيل.
+</div>
+</div>
+
+<br>
+
+<button type="submit">
+إرسال طلب التسجيل
+</button>
+
+</div>
+
+</form>
+
+<div id="success" class="success"></div>
+
+<div class="card contact">
+
+🏊 <b>النادي الرياضي للسباحة بشار (CSB)</b>
+
+<br>
+
+📞 0675 27 29 33
+
+<br>
+
+📞 0674 35 10 98
+
+<br>
+
+<span class="small">
+التسجيل الإلكتروني لا يعني القبول النهائي حتى تتم مراجعة الملف.
+</span>
+
+</div>
+
+</div>
+
+<script>
+
+function calculatePrice(){
+
+    let subscription =
+        Number(document.getElementById("subscription").value);
+
+    let member =
+        document.getElementById("memberType").value;
+
+    let total =
+        subscription + (member === "new" ? 500 : 0);
+
+    document.getElementById("total").innerText =
+        total + " دج";
+}
+
+calculatePrice();
+
+
+document.getElementById("registrationForm")
+.addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    let number =
+        "CSB-" +
+        new Date().getFullYear() +
+        "-" +
+        Math.floor(1000 + Math.random() * 9000);
+
+    let subscription =
+        Number(document.getElementById("subscription").value);
+
+    let member =
+        document.getElementById("memberType").value;
+
+    let total =
+        subscription + (member === "new" ? 500 : 0);
+
+    document.getElementById("success").style.display="block";
+
+    document.getElementById("success").innerHTML =
+
+        "<h2>✅ تم إرسال طلب التسجيل</h2>" +
+
+        "<p>رقم التسجيل:</p>" +
+
+        "<h2>" + number + "</h2>" +
+
+        "<p>المبلغ الإجمالي: <b>" +
+        total +
+        " دج</b></p>" +
+
+        "<p>ستقوم إدارة النادي بمراجعة الملف والتواصل مع ولي الأمر.</p>";
+
+    document.getElementById("success")
+        .scrollIntoView({behavior:"smooth"});
+
+});
+
+</script>
+
+</body>
+</html>
