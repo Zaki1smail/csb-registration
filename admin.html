@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إدارة نادي السباحة بشار CSB</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f3f7fb;
+    color:#12304f;
+}
+
+.container{
+    max-width:1100px;
+    margin:20px auto;
+    padding:15px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+h1,h2{
+    color:#075b8e;
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccd8e5;
+    border-radius:9px;
+    font-size:16px;
+    margin-bottom:12px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#0781d7;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+}
+
+#dashboard{
+    display:none;
+}
+
+.search{
+    margin-top:10px;
+}
+
+.table-box{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    text-align:right;
+}
+
+th{
+    background:#075b8e;
+    color:white;
+}
+
+.error{
+    background:#ffe8e8;
+    color:#a00000;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.success{
+    background:#e8f8ed;
+    color:#087c35;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>🏊 نادي السباحة بشار CSB</h1>
+
+<h2>لوحة الإدارة</h2>
+
+<input
+    id="password"
+    type="password"
+    placeholder="أدخل كلمة مرور الإدارة">
+
+<button onclick="login()">
+دخول
+</button>
+
+<div id="message"></div>
+
+</div>
+
+
+<div id="dashboard">
+
+<div class="card">
+
+<h2>📊 التسجيلات</h2>
+
+<p>
+عدد المسجلين:
+<strong id="count">0</strong>
+</p>
+
+<input
+    class="search"
+    id="search"
+    placeholder="🔎 البحث عن سباح..."
+    oninput="searchTable()">
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+<th>رقم التسجيل</th>
+<th>اسم الطفل</th>
+<th>تاريخ الميلاد</th>
+<th>الجنس</th>
+<th>الفئة</th>
+<th>المستوى</th>
+<th>ولي الأمر</th>
+<th>الهاتف</th>
+<th>الاشتراك</th>
+<th>المبلغ</th>
+<th>الحالة</th>
+</tr>
+
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let registrations = [];
+
+
+async function login(){
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("message");
+
+    if(!password){
+
+        message.innerHTML =
+        '<div class="error">أدخل كلمة المرور.</div>';
+
+        return;
+    }
+
+    message.innerHTML =
+    "⏳ جارٍ تحميل التسجيلات...";
+
+
+    try{
+
+        const response =
+        await fetch("/api/admin",{
+
+            method:"GET",
+
+            headers:{
+                "x-admin-password":password
+            }
+
+        });
+
+
+        const data =
+        await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "كلمة المرور غير صحيحة"
+            );
+
+        }
+
+
+        registrations =
+            data.rows || [];
+
+
+        document.getElementById("dashboard")
+        .style.display="block";
+
+
+        document.getElementById("count")
+        .textContent =
+        registrations.length;
+
+
+        showTable(registrations);
+
+
+        message.innerHTML =
+        '<div class="success">✅ تم الدخول بنجاح.</div>';
+
+    }
+
+    catch(error){
+
+        message.innerHTML =
+        '<div class="error">❌ '+
+        error.message+
+        '</div>';
+
+    }
+
+}
+
+
+function showTable(rows){
+
+    const body =
+        document.getElementById("tableBody");
+
+    body.innerHTML="";
+
+
+    rows.forEach(row=>{
+
+        const tr =
+            document.createElement("tr");
+
+
+        const values=[
+
+            row.registration_number,
+            row.child_name,
+            row.birth_date,
+            row.gender,
+            row.age_group,
+            row.swimming_level,
+            row.parent_name,
+            row.phone,
+            row.subscription,
+            row.amount + " دج",
+            row.status
+
+        ];
+
+
+        values.forEach(value=>{
+
+            const td =
+                document.createElement("td");
+
+            td.textContent =
+                value ?? "";
+
+            tr.appendChild(td);
+
+        });
+
+
+        body.appendChild(tr);
+
+    });
+
+}
+
+
+function searchTable(){
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const filtered =
+        registrations.filter(row=>{
+
+            return (
+
+                String(row.child_name || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(row.parent_name || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(row.phone || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(row.registration_number || "")
+                .toLowerCase()
+                .includes(search)
+
+            );
+
+        });
+
+
+    showTable(filtered);
+
+}
+
+</script>
+
+</body>
+</html>
