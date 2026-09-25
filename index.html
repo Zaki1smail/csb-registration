@@ -375,6 +375,155 @@ button:disabled{
 
 @media(max-width:650px){
     .info,
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f3f7fb;
+    color:#12304f;
+}
+
+.header{
+    background:linear-gradient(120deg,#06305d,#0784b8);
+    color:white;
+    padding:18px 15px;
+    text-align:center;
+}
+
+.header h1{
+    margin:5px 0;
+    font-size:24px;
+}
+
+.header p{
+    margin:5px 0;
+}
+
+.container{
+    max-width:800px;
+    margin:20px auto;
+    padding:0 14px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.logo{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+    margin:auto;
+    display:block;
+}
+
+h2{
+    margin-top:0;
+    color:#075b8e;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.info-box{
+    background:#eef8fc;
+    border-radius:10px;
+    padding:13px;
+    text-align:center;
+}
+
+.info-box b{
+    display:block;
+    margin-top:5px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+input,select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccd8e5;
+    border-radius:9px;
+    font-size:16px;
+    background:white;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.price{
+    margin-top:18px;
+    background:#eaf8ff;
+    padding:16px;
+    border-radius:10px;
+    font-size:19px;
+}
+
+.price strong{
+    color:#087c35;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#0781d7;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.notice{
+    background:#fff8df;
+    border:1px solid #f0d77b;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.success{
+    display:none;
+    background:#e7f8ed;
+    border:1px solid #9ad5ad;
+    padding:18px;
+    border-radius:12px;
+}
+
+.contact{
+    text-align:center;
+    line-height:2;
+}
+
+.small{
+    font-size:13px;
+    color:#667;
+}
+
+@media(max-width:650px){
+    .info,
     .form-grid{
         grid-template-columns:1fr;
     }
