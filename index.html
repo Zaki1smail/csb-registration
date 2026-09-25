@@ -355,6 +355,8 @@ button{
 
 <script>
 
+<script>
+
 function calculatePrice(){
 
     let subscription =
@@ -374,15 +376,9 @@ calculatePrice();
 
 
 document.getElementById("registrationForm")
-.addEventListener("submit", function(event){
+.addEventListener("submit", async function(event){
 
     event.preventDefault();
-
-    let number =
-        "CSB-" +
-        new Date().getFullYear() +
-        "-" +
-        Math.floor(1000 + Math.random() * 9000);
 
     let subscription =
         Number(document.getElementById("subscription").value);
@@ -393,28 +389,67 @@ document.getElementById("registrationForm")
     let total =
         subscription + (member === "new" ? 500 : 0);
 
-    document.getElementById("success").style.display="block";
+    let payload = {
+        childName: document.getElementById("childName").value,
+        birthDate: document.getElementById("birthDate").value,
+        gender: document.getElementById("gender").value,
+        ageGroup: document.getElementById("ageGroup").value,
+        level: document.getElementById("level").value,
+        memberType: member,
+        parentName: document.getElementById("parentName").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        subscription: document.getElementById("subscription").value,
+        totalAmount: total
+    };
 
-    document.getElementById("success").innerHTML =
+    let submitButton = event.target.querySelector("button[type=submit]");
+    submitButton.disabled = true;
+    submitButton.innerText = "جاري الإرسال...";
 
-        "<h2>✅ تم إرسال طلب التسجيل</h2>" +
+    try {
 
-        "<p>رقم التسجيل:</p>" +
+        let response = await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
 
-        "<h2>" + number + "</h2>" +
+        let result = await response.json();
 
-        "<p>المبلغ الإجمالي: <b>" +
-        total +
-        " دج</b></p>" +
+        if (!response.ok) {
+            throw new Error(result.error || "حدث خطأ أثناء الإرسال");
+        }
 
-        "<p>ستقوم إدارة النادي بمراجعة الملف والتواصل مع ولي الأمر.</p>";
+        document.getElementById("success").style.display="block";
 
-    document.getElementById("success")
-        .scrollIntoView({behavior:"smooth"});
+        document.getElementById("success").innerHTML =
+
+            "<h2>✅ تم إرسال طلب التسجيل</h2>" +
+
+            "<p>رقم التسجيل:</p>" +
+
+            "<h2>" + result.registration_number + "</h2>" +
+
+            "<p>المبلغ الإجمالي: <b>" +
+            total +
+            " دج</b></p>" +
+
+            "<p>ستقوم إدارة النادي بمراجعة الملف والتواصل مع ولي الأمر.</p>";
+
+        document.getElementById("success")
+            .scrollIntoView({behavior:"smooth"});
+
+        event.target.reset();
+        calculatePrice();
+
+    } catch (err) {
+        alert("حدث خطأ: " + err.message);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerText = "إرسال طلب التسجيل";
+    }
 
 });
 
 </script>
-
-</body>
-</html>
