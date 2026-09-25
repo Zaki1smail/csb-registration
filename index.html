@@ -221,106 +221,106 @@ button{
 <div class="form-grid">
 
 <div>
-<label>اسم الطفل ولقبه *</label>
+<label>اسم الطفل ولقبه / Nom et prénom de l'enfant *</label>
 <input id="childName" required>
 </div>
 
 <div>
-<label>تاريخ الميلاد *</label>
+<label>تاريخ الميلاد / Date de naissance *</label>
 <input id="birthDate" type="date" required>
 </div>
 
 <div>
-<label>الجنس</label>
+<label>الجنس / Sexe</label>
 <select id="gender">
-<option>ذكر</option>
-<option>أنثى</option>
+<option>ذكر / Garçon</option>
+<option>أنثى / Fille</option>
 </select>
 </div>
 
 <div>
-<label>الفئة العمرية</label>
+<label>الفئة العمرية / Tranche d'âge</label>
 <select id="ageGroup">
-<option>5 - 9 سنوات</option>
-<option>10 - 12 سنة</option>
-<option>13 - 15 سنة</option>
-<option>16 سنة فما فوق</option>
+<option>5 - 9 سنوات / 5-9 ans</option>
+<option>10 - 12 سنة / 10-12 ans</option>
+<option>13 - 15 سنة / 13-15 ans</option>
+<option>16 سنة فما فوق / 16 ans et plus</option>
 </select>
 </div>
 
 <div>
-<label>مستوى السباحة</label>
+<label>مستوى السباحة / Niveau de natation</label>
 <select id="level">
-<option>مبتدئ</option>
-<option>متوسط</option>
-<option>متقدم</option>
+<option>مبتدئ / Débutant</option>
+<option>متوسط / Intermédiaire</option>
+<option>متقدم / Avancé</option>
 </select>
 </div>
 
 <div>
-<label>نوع المنخرط</label>
+<label>نوع المنخرط / Type d'adhérent</label>
 <select id="memberType" onchange="calculatePrice()">
-<option value="new">منخرط جديد</option>
-<option value="old">منخرط سابق</option>
+<option value="new">منخرط جديد / Nouveau membre</option>
+<option value="old">منخرط سابق / Ancien membre</option>
 </select>
 </div>
 
 <div>
-<label>اسم ولي الأمر *</label>
+<label>اسم ولي الأمر / Nom du parent *</label>
 <input id="parentName" required>
 </div>
 
 <div>
-<label>رقم الهاتف *</label>
+<label>رقم الهاتف / Numéro de téléphone *</label>
 <input id="phone" type="tel" required>
 </div>
 
 <div class="full">
-<label>العنوان</label>
+<label>العنوان / Adresse</label>
 <input id="address">
 </div>
 
 <div>
-<label>نوع الاشتراك *</label>
+<label>نوع الاشتراك / Type d'abonnement *</label>
 <select id="subscription" onchange="calculatePrice()">
-<option value="2000">شهر واحد - 2000 دج</option>
-<option value="6000">3 أشهر - 6000 دج</option>
+<option value="2000">شهر واحد - 2000 دج / 1 mois - 2000 DA</option>
+<option value="6000">3 أشهر - 6000 دج / 3 mois - 6000 DA</option>
 </select>
 </div>
 
 <div>
-<label>الشهادة الطبية</label>
+<label>الشهادة الطبية / Certificat médical</label>
 <input id="medical" type="file" accept="image/*,.pdf">
 </div>
 
 <div>
-<label>شهادة الميلاد</label>
+<label>شهادة الميلاد / Acte de naissance</label>
 <input id="birthCertificate" type="file" accept="image/*,.pdf">
 </div>
 
 <div>
-<label>صورة الطفل</label>
+<label>صورة الطفل / Photo de l'enfant</label>
 <input id="childPhoto" type="file" accept="image/*">
 </div>
-
 
 </div>
 
 <div class="price">
-المبلغ الإجمالي:
+المبلغ الإجمالي / Montant total:
 <strong id="total">2500 دج</strong>
 
 <div class="small">
 التأمين + بطاقة النادي: 500 دج تضاف مرة واحدة فقط عند أول تسجيل.
+<br>
+Assurance + carte du club : 500 DA ajoutés une seule fois lors de la première inscription.
 </div>
 </div>
 
 <br>
 
 <button type="submit">
-إرسال طلب التسجيل
+إرسال طلب التسجيل / Envoyer la demande d'inscription
 </button>
-
 </div>
 
 </form>
