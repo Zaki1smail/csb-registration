@@ -350,6 +350,46 @@ function showTable(rows){
 }
 
 
+    function searchTable(){
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const filtered =
+        registrations.filter(row=>{
+
+            return (
+
+                String(row.child_name || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(row.parent_name || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(row.phone || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(row.registration_number || "")
+                .toLowerCase()
+                .includes(search)
+
+            );
+
+        });
+
+
     showTable(filtered);
 
 }
