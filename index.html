@@ -752,6 +752,21 @@ function calculatePrice(){
 calculatePrice();
 
 
+function fileToBase64(fileInput){
+    return new Promise((resolve, reject) => {
+        let file = fileInput.files[0];
+        if (!file) {
+            resolve(null);
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+
 document.getElementById("registrationForm")
 .addEventListener("submit", async function(event){
 
@@ -766,25 +781,32 @@ document.getElementById("registrationForm")
     let total =
         subscription + (member === "new" ? 500 : 0);
 
-    let payload = {
-        childName: document.getElementById("childName").value,
-        birthDate: document.getElementById("birthDate").value,
-        gender: document.getElementById("gender").value,
-        ageGroup: document.getElementById("ageGroup").value,
-        level: document.getElementById("level").value,
-        memberType: member,
-        parentName: document.getElementById("parentName").value,
-        phone: document.getElementById("phone").value,
-        address: document.getElementById("address").value,
-        subscription: document.getElementById("subscription").value,
-        totalAmount: total
-    };
-
     let submitButton = event.target.querySelector("button[type=submit]");
     submitButton.disabled = true;
     submitButton.innerText = "جاري الإرسال...";
 
     try {
+
+        let childPhoto = await fileToBase64(document.getElementById("childPhoto"));
+        let medical = await fileToBase64(document.getElementById("medical"));
+        let birthCertificate = await fileToBase64(document.getElementById("birthCertificate"));
+
+        let payload = {
+            childName: document.getElementById("childName").value,
+            birthDate: document.getElementById("birthDate").value,
+            gender: document.getElementById("gender").value,
+            ageGroup: document.getElementById("ageGroup").value,
+            level: document.getElementById("level").value,
+            memberType: member,
+            parentName: document.getElementById("parentName").value,
+            phone: document.getElementById("phone").value,
+            address: document.getElementById("address").value,
+            subscription: document.getElementById("subscription").value,
+            totalAmount: total,
+            childPhoto: childPhoto,
+            medical: medical,
+            birthCertificate: birthCertificate
+        };
 
         let response = await fetch("/api/register", {
             method: "POST",
