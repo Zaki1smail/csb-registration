@@ -99,6 +99,39 @@ th{
     border-radius:10px;
     margin-top:10px;
 }
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.actions button{
+    width:auto;
+    padding:10px 18px;
+    font-size:15px;
+}
+
+.btn-print{
+    background:#075b8e;
+}
+
+.btn-delete{
+    background:#c0392b;
+    width:auto;
+    padding:6px 12px;
+    font-size:13px;
+    font-weight:normal;
+}
+
+@media print{
+    input, .actions, th:last-child, td:last-child{
+        display:none !important;
+    }
+    .card:first-child{
+        display:none;
+    }
+}
 </style>
 </head>
 
@@ -143,6 +176,9 @@ th{
     placeholder="🔎 البحث عن سباح..."
     oninput="searchTable()">
 
+<div class="actions">
+<button class="btn-print" onclick="window.print()">🖨️ طباعة القائمة</button>
+</div>
 <div class="table-box">
 
 <table>
@@ -163,6 +199,7 @@ th{
 <th>المبلغ</th>
 <th>الشهادة الطبية</th>
 <th>شهادة الميلاد</th>
+<th>حذف</th>
 </tr>
 
 </thead>
@@ -343,9 +380,71 @@ function showTable(rows){
         tr.appendChild(birthCertCell);
 
 
+        const deleteCell =
+            document.createElement("td");
+
+        const deleteBtn =
+            document.createElement("button");
+
+        deleteBtn.className = "btn-delete";
+        deleteBtn.textContent = "حذف";
+        deleteBtn.onclick = () => deleteRegistration(row.id);
+
+        deleteCell.appendChild(deleteBtn);
+        tr.appendChild(deleteCell);
+
+
         body.appendChild(tr);
 
     });
+
+}
+
+
+async function deleteRegistration(id){
+
+    if(!confirm("هل أنت متأكد من حذف هذا التسجيل نهائيًا؟")){
+        return;
+    }
+
+    const password =
+        document.getElementById("password").value;
+
+    try{
+
+        const response =
+        await fetch("/api/delete",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json",
+                "x-admin-password":password
+            },
+
+            body: JSON.stringify({ id })
+
+        });
+
+        const data =
+        await response.json();
+
+        if(!response.ok){
+            throw new Error(data.error || "فشل الحذف");
+        }
+
+        registrations =
+            registrations.filter(row => row.id !== id);
+
+        document.getElementById("count")
+        .textContent =
+        registrations.length;
+
+        showTable(registrations);
+
+    } catch(error){
+        alert("خطأ: " + error.message);
+    }
 
 }
 
