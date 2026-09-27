@@ -280,6 +280,20 @@ function showTable(rows){
             document.createElement("tr");
 
 
+        const photoCell =
+            document.createElement("td");
+
+        if(row.child_photo_file){
+            photoCell.innerHTML =
+                '<img src="' + row.child_photo_file +
+                '" style="width:50px;height:50px;object-fit:cover;border-radius:8px;cursor:pointer" onclick="window.open(this.src)">';
+        } else {
+            photoCell.textContent = "—";
+        }
+
+        tr.appendChild(photoCell);
+
+
         const values=[
 
             row.registration_number,
@@ -287,12 +301,11 @@ function showTable(rows){
             row.birth_date,
             row.gender,
             row.age_group,
-            row.swimming_level,
+            row.level,
             row.parent_name,
             row.phone,
             row.subscription,
-            row.amount + " دج",
-            row.status
+            (row.total_amount ?? "") + " دج"
 
         ];
 
@@ -310,51 +323,31 @@ function showTable(rows){
         });
 
 
+        const medicalCell =
+            document.createElement("td");
+
+        medicalCell.innerHTML = row.medical_file
+            ? '<a href="' + row.medical_file + '" target="_blank">عرض</a>'
+            : "—";
+
+        tr.appendChild(medicalCell);
+
+
+        const birthCertCell =
+            document.createElement("td");
+
+        birthCertCell.innerHTML = row.birth_certificate_file
+            ? '<a href="' + row.birth_certificate_file + '" target="_blank">عرض</a>'
+            : "—";
+
+        tr.appendChild(birthCertCell);
+
+
         body.appendChild(tr);
 
     });
 
 }
-
-
-function searchTable(){
-
-    const search =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
-
-
-    const filtered =
-        registrations.filter(row=>{
-
-            return (
-
-                String(row.child_name || "")
-                .toLowerCase()
-                .includes(search)
-
-                ||
-
-                String(row.parent_name || "")
-                .toLowerCase()
-                .includes(search)
-
-                ||
-
-                String(row.phone || "")
-                .toLowerCase()
-                .includes(search)
-
-                ||
-
-                String(row.registration_number || "")
-                .toLowerCase()
-                .includes(search)
-
-            );
-
-        });
 
 
     showTable(filtered);
