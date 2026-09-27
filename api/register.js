@@ -19,6 +19,33 @@ module.exports = async (req, res) => {
       "-" +
       Math.floor(1000 + Math.random() * 9000);
 
+    async function uploadFile(base64Data, fileName) {
+      if (!base64Data) return null;
+
+      const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
+      if (!matches) return null;
+
+      const mimeType = matches[1];
+      const buffer = Buffer.from(matches[2], "base64");
+      const path = registrationNumber + "/" + fileName;
+
+      const { error } = await supabase.storage
+        .from("registrations")
+        .upload(path, buffer, { contentType: mimeType, upsert: true });
+
+      if (error) throw error;
+
+      const { data } = supabase.storage
+        .from("registrations")
+        .getPublicUrl(path);
+
+      return data.publicUrl;
+    }
+
+    const childPhotoUrl = await uploadFile(body.childPhoto, "child-photo.jpg");
+    const medicalUrl = await uploadFile(body.medical, "medical.jpg");
+    const birthCertUrl = await uploadFile(body.birthCertificate, "birth-certificate.jpg");
+
     const { data, error } = await supabase
       .from("registrations")
       .insert([
@@ -34,7 +61,10 @@ module.exports = async (req, res) => {
           address: body.address,
           subscription: body.subscription,
           registration_number: registrationNumber,
-          total_amount: body.totalAmount
+          total_amount: body.totalAmount,
+          child_photo_file: childPhotoUrl,
+          medical_file: medicalUrl,
+          birth_certificate_file: birthCertUrl
         }
       ])
       .select();
