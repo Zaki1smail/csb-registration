@@ -133,7 +133,7 @@ th{
 }
 
 @media print{
-    input, .actions, th:last-child, td:last-child{
+    input, .actions, th:nth-last-child(-n+2), td:nth-last-child(-n+2){
         display:none !important;
     }
     .container > .card:first-child{
@@ -207,6 +207,7 @@ th{
 <th>المبلغ</th>
 <th>الشهادة الطبية</th>
 <th>شهادة الميلاد</th>
+<th>واتساب</th>
 <th>حذف</th>
 </tr>
 
@@ -387,7 +388,25 @@ function showTable(rows){
 
         tr.appendChild(birthCertCell);
 
+const whatsappCell =
+            document.createElement("td");
 
+        if(row.phone){
+
+            const whatsappBtn =
+                document.createElement("button");
+
+            whatsappBtn.className = "btn-whatsapp";
+            whatsappBtn.textContent = "📱 واتساب";
+            whatsappBtn.onclick = () => sendWhatsapp(row);
+
+            whatsappCell.appendChild(whatsappBtn);
+
+        } else {
+            whatsappCell.textContent = "—";
+        }
+
+        tr.appendChild(whatsappCell);
         const deleteCell =
             document.createElement("td");
 
@@ -432,10 +451,6 @@ function sendWhatsapp(row){
 
 }
 
-
-async function deleteRegistration(id){
-    ... (الدالة الموجودة عندك كما هي، بدون تغيير)
-    }
 
 async function deleteRegistration(id){
 
