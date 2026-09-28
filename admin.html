@@ -124,6 +124,14 @@ th{
     font-weight:normal;
 }
 
+.btn-whatsapp{
+    background:#25D366;
+    width:auto;
+    padding:6px 12px;
+    font-size:13px;
+    font-weight:normal;
+}
+
 @media print{
     input, .actions, th:last-child, td:last-child{
         display:none !important;
@@ -399,7 +407,35 @@ function showTable(rows){
     });
 
 }
+function sendWhatsapp(row){
 
+    let phone = row.phone.replace(/[^0-9]/g, "");
+
+    if(phone.startsWith("0")){
+        phone = "213" + phone.substring(1);
+    }
+
+    let message =
+        "مرحبًا " + (row.parent_name || "") +
+        "،\nنود إعلامكم بأن ملف تسجيل طفلكم " +
+        (row.child_name || "") +
+        " برقم " + row.registration_number +
+        " قد تمت الموافقة عليه ✅\n" +
+        "يرجى التقرب إلى مقر النادي الرياضي للسباحة بشار (CSB) لإتمام الإجراءات.\n" +
+        "شكرًا لكم 🏊";
+
+    let url =
+        "https://wa.me/" + phone +
+        "?text=" + encodeURIComponent(message);
+
+    window.open(url, "_blank");
+
+}
+
+
+async function deleteRegistration(id){
+    ... (الدالة الموجودة عندك كما هي، بدون تغيير)
+    }
 
 async function deleteRegistration(id){
 
