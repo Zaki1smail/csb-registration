@@ -817,10 +817,18 @@ document.getElementById("registrationForm")
     let total =
         subscription + (member === "new" ? 500 : 0);
 
+    let childPhotoFile = document.getElementById("childPhoto").files[0];
+    let medicalFile = document.getElementById("medical").files[0];
+    let birthCertFile = document.getElementById("birthCertificate").files[0];
+
+    if (!childPhotoFile || !medicalFile || !birthCertFile) {
+        alert("يرجى إرفاق جميع الوثائق المطلوبة: صورة الطفل، الشهادة الطبية، وشهادة الميلاد.");
+        return;
+    }
+
     let submitButton = event.target.querySelector("button[type=submit]");
     submitButton.disabled = true;
     submitButton.innerText = "جاري الإرسال...";
-
     try {
 
         let childPhoto = await fileToBase64(document.getElementById("childPhoto"));
