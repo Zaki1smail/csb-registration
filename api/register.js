@@ -13,6 +13,21 @@ module.exports = async (req, res) => {
 
     const body = req.body;
 
+    const { data: existing, error: checkError } = await supabase
+      .from("registrations")
+      .select("id")
+      .eq("child_name", body.childName)
+      .eq("birth_date", body.birthDate)
+      .limit(1);
+
+    if (checkError) throw checkError;
+
+    if (existing && existing.length > 0) {
+      return res.status(409).json({
+        error: "هذا الطفل مسجّل مسبقًا بنفس الاسم وتاريخ الميلاد."
+      });
+    }
+
     const registrationNumber =
       "CSB-" +
       new Date().getFullYear() +
