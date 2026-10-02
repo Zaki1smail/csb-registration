@@ -432,6 +432,7 @@ const whatsappCell =
         body.appendChild(tr);
 
     });
+}   
 function makeUploadButton(row, fileType){
     const inputId = "upload_" + fileType + "_" + row.id;
     return '<input type="file" accept="image/*,.pdf" id="' + inputId +
@@ -544,7 +545,6 @@ async function uploadMissingFile(id, registrationNumber, fileType, inputEl){
         alert("خطأ: " + error.message);
     }
 
-}
 }
 function sendWhatsapp(row){
 
