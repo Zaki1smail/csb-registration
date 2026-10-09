@@ -140,12 +140,69 @@ th{
     font-weight:normal;
 }
 
+@page{
+    size: A4 landscape;
+    margin: 8mm;
+}
+
 @media print{
-    input, .actions, th:nth-last-child(-n+2), td:nth-last-child(-n+2){
+
+    body{
+        background:white;
+    }
+
+    .container{
+        max-width:100%;
+        margin:0;
+        padding:0;
+    }
+
+    .card{
+        box-shadow:none;
+        padding:0;
+        margin:0;
+    }
+
+    input, .actions, .btn-upload,
+    th:nth-last-child(-n+2),
+    td:nth-last-child(-n+2){
         display:none !important;
     }
+
     .container > .card:first-child{
         display:none;
+    }
+
+    .table-box{
+        overflow:visible !important;
+    }
+
+    table{
+        min-width:0 !important;
+        width:100%;
+        table-layout:auto;
+        font-size:10px;
+    }
+
+    th, td{
+        padding:4px;
+        word-break:break-word;
+    }
+
+    th{
+        background:#075b8e !important;
+        color:white !important;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    td img{
+        width:35px !important;
+        height:35px !important;
+    }
+
+    tr{
+        page-break-inside:avoid;
     }
 }
 </style>
