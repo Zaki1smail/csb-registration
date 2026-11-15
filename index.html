@@ -6,6 +6,19 @@
 <title>CSB - التسجيل الإلكتروني</title>
 
 <style>
+.closed-banner{
+    display:none;
+    background:#fdecea;
+    border:1px solid #f1b0a8;
+    color:#8a1f12;
+    padding:18px;
+    border-radius:14px;
+    text-align:center;
+    margin-bottom:18px;
+    font-size:17px;
+    line-height:1.9;
+}
+
 *{box-sizing:border-box}
 
 body{
@@ -563,6 +576,12 @@ button{
 
 <div class="container">
 
+<div id="closedBanner" class="closed-banner"></div>
+
+<div class="card">
+
+<div id="closedBanner" class="closed-banner"></div>
+
 <div class="card">
 
 <div class="info">
@@ -733,7 +752,32 @@ Assurance + carte du club : 500 DA ajoutés une seule fois lors de la première 
 </div>
 
 <script>
+async function checkStatus(){
+    try{
+        const r = await fetch("/api/status");
+        const s = await r.json();
 
+        if(s.open === false){
+            const box = document.getElementById("closedBanner");
+            let d = "";
+            if(s.reopen_date){
+                d = new Date(s.reopen_date).toLocaleDateString(
+                    "ar-DZ", {day:"numeric", month:"long", year:"numeric"}
+                );
+            }
+            box.innerHTML =
+                "⏸️ التسجيل متوقف حالياً" +
+                (d ? "<br>يُفتح التسجيل يوم <b>" + d + "</b>" : "") +
+                "<br><small>Les inscriptions sont suspendues.</small>";
+            box.style.display = "block";
+
+            document.querySelectorAll(
+                "#registrationForm input, #registrationForm select, #registrationForm button"
+            ).forEach(el => el.disabled = true);
+        }
+    } catch(e){}
+}
+checkStatus();
 function calculatePrice(){
 
     let subscription =
