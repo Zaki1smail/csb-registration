@@ -5,11 +5,29 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
+    try {
     const supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
+
+    // فحص حالة التسجيل (مفتاح الإيقاف)
+    const { data: settingsRows } = await supabase
+      .from("settings")
+      .select("key,value");
+    const s = Object.fromEntries(
+      (settingsRows || []).map(r => [r.key, r.value])
+    );
+    const dateReached =
+      s.reopen_date && new Date() >= new Date(s.reopen_date);
+    const isOpen = s.registration_open !== "false" || dateReached;
+
+    if (!isOpen) {
+      return res.status(403).json({
+        error: "التسجيل متوقف حالياً" +
+          (s.reopen_date ? "، يُفتح يوم " + s.reopen_date : "") + "."
+      });
+    }
 
     const body = req.body;
 
